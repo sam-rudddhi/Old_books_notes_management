@@ -22,14 +22,15 @@ export const getBooks = async (req, res, next) => {
         const offset = (page - 1) * limit;
         const where = { is_available: true };
 
-        // Filters
         if (category) where.category_id = category;
         if (condition) where.condition = condition;
+
         if (minPrice || maxPrice) {
             where.price = {};
             if (minPrice) where.price[Op.gte] = minPrice;
             if (maxPrice) where.price[Op.lte] = maxPrice;
         }
+
         if (search) {
             where[Op.or] = [
                 { title: { [Op.like]: `%${search}%` } },
@@ -40,24 +41,47 @@ export const getBooks = async (req, res, next) => {
 
         const { count, rows: books } = await Book.findAndCountAll({
             where,
+
             include: [
-                { model: Category, as: 'category', attributes: ['category_id', 'category_name'] },
-                { model: User, as: 'seller', attributes: ['user_id', 'name', 'contact_email'] },
-                { model: Image, as: 'images', where: { is_primary: true }, required: false },
+                {
+                    model: Category,
+                    as: 'category',
+                    attributes: ['category_id', 'category_name']
+                },
+                {
+                    model: User,
+                    as: 'seller',
+                    attributes: ['user_id', 'name', 'contact_email']
+                },
+                {
+                    model: Image,
+                    as: 'images',
+                    attributes: [],               
+                    where: { is_primary: true },
+                    required: false
+                },
                 {
                     model: Review,
                     as: 'reviews',
-                    attributes: [],
+                    attributes: [],               
                     required: false
                 }
             ],
+
             attributes: {
                 include: [
+                    [sequelize.fn('MIN', sequelize.col('images.img_url')), 'img_url'],
                     [sequelize.fn('AVG', sequelize.col('reviews.rating')), 'avg_rating'],
                     [sequelize.fn('COUNT', sequelize.col('reviews.review_id')), 'review_count']
                 ]
             },
-            group: ['books.book_id'],
+
+            group: [
+                'books.book_id',
+                'category.category_id',
+                'seller.user_id'
+            ],
+
             order: [[sortBy, order]],
             limit: parseInt(limit),
             offset: parseInt(offset),
@@ -66,8 +90,10 @@ export const getBooks = async (req, res, next) => {
 
         res.json({
             success: true,
-            count,
-            totalPages: Math.ceil(count / limit),
+            count: Array.isArray(count) ? count.length : count,
+            totalPages: Math.ceil(
+                (Array.isArray(count) ? count.length : count) / limit
+            ),
             currentPage: parseInt(page),
             data: books
         });
@@ -75,6 +101,7 @@ export const getBooks = async (req, res, next) => {
         next(error);
     }
 };
+
 
 // @desc    Get single book
 // @route   GET /api/books/:id
@@ -118,13 +145,17 @@ export const createBook = async (req, res, next) => {
         const { title, author, isbn, edition, condition, price, quantity, category_id, description } = req.body;
 
         // Verify user is seller or admin
-        if (req.user.role !== 'seller' && req.user.role !== 'admin') {
+        const roles = req.user.role
+            .split(',')
+            .map(r => r.trim());
+
+        if (!roles.includes('seller') && !roles.includes('admin')) {
             return res.status(403).json({
                 success: false,
                 message: 'Only sellers can add books'
             });
         }
-
+        
         const book = await Book.create({
             title,
             author,

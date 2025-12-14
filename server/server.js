@@ -1,7 +1,12 @@
+import dotenv from 'dotenv';  
+
+// Load environment variables
+dotenv.config();
+
+
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -26,8 +31,6 @@ import errorHandler from './middleware/errorHandler.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables
-dotenv.config();
 
 // Initialize Express app
 const app = express();

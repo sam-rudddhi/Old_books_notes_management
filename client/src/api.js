@@ -63,5 +63,10 @@ export const api = {
             console.error("Error fetching stats", e);
             return { totalBooks: 0, totalNotes: 0, activeUsers: 0, recentAdditions: 0 };
         }
-    }
+    },
+
+    getCategories: async () => {
+        const res = await fetch(`${API_URL}/categories`, { headers: getHeaders() });
+        return res.json();
+    },
 };
