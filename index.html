@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old Books & Notes Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-box">
+                <h1><i class="fas fa-book"></i> Library Management System</h1>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" id="username" name="username" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                <div class="demo-credentials">
+                    <p><strong>Demo Credentials:</strong></p>
+                    <p>Admin: admin/admin123</p>
+                    <p>User: user/user123</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="page">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-book"></i> Old Books & Notes Management</h1>
+                <div class="user-info">
+                    <span id="currentUser">Welcome, User!</span>
+                    <button id="logoutBtn" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <button class="nav-btn active" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </button>
+            <button class="nav-btn" data-section="books">
+                <i class="fas fa-book"></i> Books
+            </button>
+            <button class="nav-btn" data-section="notes">
+                <i class="fas fa-sticky-note"></i> Notes
+            </button>
+            <button class="nav-btn" data-section="search">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="content-section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-book"></i>
+                        <h3>Total Books</h3>
+                        <span id="totalBooks">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-sticky-note"></i>
+                        <h3>Total Notes</h3>
+                        <span id="totalNotes">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Active Users</h3>
+                        <span id="activeUsers">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Recent Additions</h3>
+                        <span id="recentAdditions">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Books Section -->
+            <section id="booksSection" class="content-section">
+                <div class="section-header">
+                    <h2>Books Management</h2>
+                    <button id="addBookBtn" class="btn-add">
+                        <i class="fas fa-plus"></i> Add New Book
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="booksTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th>Year</th>
+                                <th>Condition</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booksTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Notes Section -->
+            <section id="notesSection" class="content-section">
+                <div class="section-header">
+                    <h2>Notes Management</h2>
+                    <button id="addNoteBtn" class="btn-add">
+                        <i class="fas fa-plus"></i> Add New Note
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="notesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Subject</th>
+                                <th>Type</th>
+                                <th>Grade Level</th>
+                                <th>Pages</th>
+                                <th>Condition</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="notesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Search Section -->
+            <section id="searchSection" class="content-section">
+                <h2>Search Books & Notes</h2>
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search by title, author, or subject...">
+                        <button id="searchBtn" class="btn-search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="search-filters">
+                        <select id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="fiction">Fiction</option>
+                            <option value="non-fiction">Non-Fiction</option>
+                            <option value="textbook">Textbook</option>
+                            <option value="reference">Reference</option>
+                        </select>
+                        <select id="typeFilter">
+                            <option value="">All Types</option>
+                            <option value="book">Books</option>
+                            <option value="notes">Notes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-results" id="searchResults">
+                    <!-- Search results will be displayed here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Book Modal -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="bookModalTitle">Add New Book</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="bookForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookTitle">Title:</label>
+                        <input type="text" id="bookTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookAuthor">Author:</label>
+                        <input type="text" id="bookAuthor" name="author" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookCategory">Category:</label>
+                        <select id="bookCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="fiction">Fiction</option>
+                            <option value="non-fiction">Non-Fiction</option>
+                            <option value="textbook">Textbook</option>
+                            <option value="reference">Reference</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookYear">Publication Year:</label>
+                        <input type="number" id="bookYear" name="publication_year" min="1800" max="2024" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookCondition">Condition:</label>
+                        <select id="bookCondition" name="condition" required>
+                            <option value="">Select Condition</option>
+                            <option value="excellent">Excellent</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookStatus">Status:</label>
+                        <select id="bookStatus" name="status" required>
+                            <option value="available">Available</option>
+                            <option value="borrowed">Borrowed</option>
+                            <option value="reserved">Reserved</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bookDescription">Description:</label>
+                    <textarea id="bookDescription" name="description" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn-save">Save Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="noteModalTitle">Add New Note</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="noteForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="noteTitle">Title:</label>
+                        <input type="text" id="noteTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="noteSubject">Subject:</label>
+                        <input type="text" id="noteSubject" name="subject" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="noteType">Type:</label>
+                        <select id="noteType" name="type" required>
+                            <option value="">Select Type</option>
+                            <option value="lecture-notes">Lecture Notes</option>
+                            <option value="study-guide">Study Guide</option>
+                            <option value="assignment">Assignment</option>
+                            <option value="reference-notes">Reference Notes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="noteGrade">Grade Level:</label>
+                        <select id="noteGrade" name="grade_level" required>
+                            <option value="">Select Grade</option>
+                            <option value="undergraduate">Undergraduate</option>
+                            <option value="graduate">Graduate</option>
+                            <option value="high-school">High School</option>
+                            <option value="professional">Professional</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="notePages">Number of Pages:</label>
+                        <input type="number" id="notePages" name="pages" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="noteCondition">Condition:</label>
+                        <select id="noteCondition" name="condition" required>
+                            <option value="">Select Condition</option>
+                            <option value="excellent">Excellent</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                            <option value="poor">Poor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="noteContent">Content Summary:</label>
+                    <textarea id="noteContent" name="content" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn-save">Save Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
