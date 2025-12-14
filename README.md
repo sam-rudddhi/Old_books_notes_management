@@ -251,17 +251,14 @@ PORT 5000 busy
 
 **SAMRUDDHI JADHAV**  
 FYMCA Sem 1 - DBMS ISE2  
-December 2025
 UCID: 2025510025
 
 **Anshika Jaiswal**  
 FYMCA Sem 1 – DBMS ISE2  
-December 2025  
 UCID: 2025510026  
 
-**Gourav Jha (grvx)**  
-FYMCA Sem 1 – DBMS ISE2  
-December 2025  
+**Gaurav Jha**  
+FYMCA Sem 1 – DBMS ISE2   
 UCID: 2025510027  
 [GitHub](https://github.com/grvx-github) | [LinkedIn](https://www.linkedin.com/in/grvx)
 
@@ -284,4 +281,5 @@ mysql -u root -p old_books_notes_db < database/seed.sql
 ---
 
 **Made with ❤️ for learning DBMS concepts**
+
 
