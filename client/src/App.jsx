@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Books from './pages/Books';
 import Notes from './pages/Notes';
 import SellerPage from './pages/SellerPage';
+import BookDetails from './pages/BookDetails';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -36,8 +37,9 @@ function App() {
         <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/" />} />
 
         <Route element={<Layout user={user} setUser={setUser} />}>
-          <Route path="/" element={<Dashboard user={user} />} />
-          <Route path="/books" element={<Books />} />
+          <Route path="/" element={<Books />} />
+          {/* <Route path="/books" element={} /> */}
+          <Route path="/books/:id" element={<BookDetails />} />
           <Route path="/seller" element={<SellerPage />} />
           <Route path="/notes" element={<Notes />} />
         </Route>

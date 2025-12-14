@@ -25,7 +25,7 @@ const Navbar = ({ user, setUser }) => {
                     )}
 
                     {/* Buyers see Marketplace */}
-                    {(user?.roles?.includes('buyer') || user?.roles?.includes('admin')) && (
+                    {(user?.roles?.includes('buyer') || user?.roles?.includes('seller')) && (
                         <NavLink to="/books" className={({ isActive }) => isActive ? 'active' : ''}>Browse Books</NavLink>
                     )}
 
