@@ -247,11 +247,23 @@ PORT 5000 busy
 
 ---
 
-## 👨‍💻 Author
+## 👨‍💻 Authors
 
-**Samruddhi Jadhav**
-FYMCA Sem 1 – DBMS ISE2
+**SAMRUDDHI JADHAV**  
+FYMCA Sem 1 - DBMS ISE2  
 December 2025
+UCID: 2025510025
+
+**Anshika Jaiswal**  
+FYMCA Sem 1 – DBMS ISE2  
+December 2025  
+UCID: 2025510026  
+
+**Gourav Jha (grvx)**  
+FYMCA Sem 1 – DBMS ISE2  
+December 2025  
+UCID: 2025510027  
+[GitHub](https://github.com/grvx-github) | [LinkedIn](https://www.linkedin.com/in/grvx)
 
 ---
 
@@ -259,7 +271,7 @@ December 2025
 
 ```bash
 # Start backend
-cd server && npm run dev
+cd server && npm start
 
 # Start frontend
 cd client && npm run dev
@@ -272,3 +284,4 @@ mysql -u root -p old_books_notes_db < database/seed.sql
 ---
 
 **Made with ❤️ for learning DBMS concepts**
+
