@@ -121,29 +121,121 @@ npm run dev
 ---
 
 ## 📁 Project Structure
-
 ```
-Old_books_notes_management/
-├── database/
-│   ├── schema.sql
-│   └── seed.sql
-│
-├── server/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   └── server.js
-│
-├── client/
+old-notes-books-system/
+├── client/                          # React Frontend
+│   ├── public/
+│   │   └── uploads/                 # Uploaded images
 │   ├── src/
-│   │   ├── components/
+│   │   ├── assets/                  # Static assets
+│   │   ├── components/              # Reusable components
+│   │   │   ├── common/
+│   │   │   │   ├── Navbar.jsx
+│   │   │   │   ├── Footer.jsx
+│   │   │   │   ├── Loader.jsx
+│   │   │   │   └── ErrorBoundary.jsx
+│   │   │   ├── auth/
+│   │   │   │   ├── Login.jsx
+│   │   │   │   ├── Register.jsx
+│   │   │   │   └── ProtectedRoute.jsx
+│   │   │   ├── books/
+│   │   │   │   ├── BookList.jsx
+│   │   │   │   ├── BookCard.jsx
+│   │   │   │   ├── BookDetail.jsx
+│   │   │   │   └── BookForm.jsx
+│   │   │   ├── notes/
+│   │   │   │   ├── NoteList.jsx
+│   │   │   │   ├── NoteCard.jsx
+│   │   │   │   ├── NoteDetail.jsx
+│   │   │   │   └── NoteForm.jsx
+│   │   │   ├── reviews/
+│   │   │   │   ├── ReviewList.jsx
+│   │   │   │   └── ReviewForm.jsx
+│   │   │   ├── transactions/
+│   │   │   │   ├── TransactionList.jsx
+│   │   │   │   └── TransactionDetail.jsx
+│   │   │   └── payment/
+│   │   │       └── PaymentForm.jsx
 │   │   ├── pages/
-│   │   ├── services/
-│   │   └── context/
-│   └── main.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Books.jsx
+│   │   │   ├── Notes.jsx
+│   │   │   ├── Profile.jsx
+│   │   │   └── NotFound.jsx
+│   │   ├── services/                # API services
+│   │   │   ├── api.js
+│   │   │   ├── authService.js
+│   │   │   ├── bookService.js
+│   │   │   ├── noteService.js
+│   │   │   ├── reviewService.js
+│   │   │   ├── transactionService.js
+│   │   │   └── paymentService.js
+│   │   ├── context/                 # React Context
+│   │   │   └── AuthContext.jsx
+│   │   ├── hooks/                   # Custom hooks
+│   │   │   └── useAuth.js
+│   │   ├── utils/                   # Utility functions
+│   │   │   ├── validators.js
+│   │   │   └── helpers.js
+│   │   ├── styles/                  # Global styles
+│   │   │   ├── index.css
+│   │   │   └── variables.css
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── package.json
+│   └── vite.config.js
 │
+├── server/                          # Express Backend
+│   ├── config/
+│   │   ├── database.js              # Database connection
+│   │   └── config.js                # App configuration
+│   ├── models/                      # Sequelize models
+│   │   ├── index.js
+│   │   ├── User.js
+│   │   ├── Category.js
+│   │   ├── Book.js
+│   │   ├── Note.js
+│   │   ├── Review.js
+│   │   ├── Image.js
+│   │   ├── Transaction.js
+│   │   └── Payment.js
+│   ├── controllers/                 # Route controllers
+│   │   ├── authController.js
+│   │   ├── userController.js
+│   │   ├── categoryController.js
+│   │   ├── bookController.js
+│   │   ├── noteController.js
+│   │   ├── reviewController.js
+│   │   ├── transactionController.js
+│   │   └── paymentController.js
+│   ├── routes/                      # API routes
+│   │   ├── auth.js
+│   │   ├── users.js
+│   │   ├── categories.js
+│   │   ├── books.js
+│   │   ├── notes.js
+│   │   ├── reviews.js
+│   │   ├── transactions.js
+│   │   └── payments.js
+│   ├── middleware/
+│   │   ├── auth.js                  # JWT authentication
+│   │   ├── upload.js                # File upload
+│   │   ├── errorHandler.js
+│   │   └── validators.js
+│   ├── utils/
+│   │   ├── jwt.js
+│   │   └── helpers.js
+│   ├── uploads/                     # Uploaded files
+│   ├── server.js                    # Entry point
+│   └── package.json
+│
+├── database/
+│   ├── schema.sql                   # Database schema
+│   └── seed.sql                     # Sample data
+│
+├── .env.example
+├── .gitignore
 └── README.md
 ```
 
@@ -281,5 +373,6 @@ mysql -u root -p old_books_notes_db < database/seed.sql
 ---
 
 **Made with ❤️ for learning DBMS concepts**
+
 
 
