@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = `http://localhost:5000/api`;
+console.log(`${API_URL}/books`);
 
 const getHeaders = () => {
     const token = localStorage.getItem('token');
@@ -8,65 +9,89 @@ const getHeaders = () => {
     };
 };
 
+const handleResponse = async (res) => {
+    const json = await res.json();
+    if (!res.ok) {
+        throw new Error(json.message || 'API Error');
+    }
+    return json.data ?? json;
+};
+
 export const api = {
-    // Auth
     login: async (credentials) => {
-        // credentials should be { contact_email, password }
         const res = await fetch(`${API_URL}/auth/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials)
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Login failed');
-        return data;
+        return handleResponse(res);
     },
 
-    // Books
     getBooks: async () => {
         const res = await fetch(`${API_URL}/books`, { headers: getHeaders() });
-        return res.json();
+
+        return handleResponse(res);
     },
 
+    getBookById: async (id) => {
+        const res = await fetch(`${API_URL}/books/${id}`);
+        const json = await res.json();
+        return json.data ?? json;
+    },
+    getMyBooks: async () => {
+        const res = await fetch(`${API_URL}/books/seller/my-books`, {
+            headers: getHeaders()
+        });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.message || 'Failed to fetch seller books');
+        return json.data ?? json;
+    },
+
+
     addBook: async (bookData) => {
-        // This calls the API which should use Stored Procedure sp_add_book
         const res = await fetch(`${API_URL}/books`, {
             method: 'POST',
             headers: getHeaders(),
             body: JSON.stringify(bookData)
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Add book failed');
-        return data;
+        return handleResponse(res);
     },
 
-    // Notes
+    deleteBook: async (bookId) => {
+        const res = await fetch(`${API_URL}/books/${bookId}`, {
+            method: 'DELETE',
+            headers: getHeaders()
+        });
+
+        const json = await res.json();
+        if (!res.ok) {
+            throw new Error(json.message || 'Failed to delete book');
+        }
+
+        return json;
+    },
+    updateBook: async (bookId, bookData) => {
+        const res = await fetch(`${API_URL}/books/${bookId}`, {
+            method: 'PUT',
+            headers: getHeaders(),
+            body: JSON.stringify(bookData)
+        });
+
+        const json = await res.json();
+        if (!res.ok) {
+            throw new Error(json.message || 'Failed to update book');
+        }
+
+        return json.data ?? json;
+    },
+
     getNotes: async () => {
         const res = await fetch(`${API_URL}/notes`, { headers: getHeaders() });
-        return res.json();
-    },
-
-    // Stats
-    getStats: async () => {
-        try {
-            const [books, notes] = await Promise.all([
-                fetch(`${API_URL}/books`, { headers: getHeaders() }).then(r => r.json()),
-                fetch(`${API_URL}/notes`, { headers: getHeaders() }).then(r => r.json())
-            ]);
-            return {
-                totalBooks: Array.isArray(books) ? books.length : 0,
-                totalNotes: Array.isArray(notes) ? notes.length : 0,
-                activeUsers: 1,
-                recentAdditions: (Array.isArray(books) ? books.length : 0) + (Array.isArray(notes) ? notes.length : 0)
-            };
-        } catch (e) {
-            console.error("Error fetching stats", e);
-            return { totalBooks: 0, totalNotes: 0, activeUsers: 0, recentAdditions: 0 };
-        }
+        return handleResponse(res);
     },
 
     getCategories: async () => {
         const res = await fetch(`${API_URL}/categories`, { headers: getHeaders() });
-        return res.json();
-    },
+        return handleResponse(res);
+    }
 };

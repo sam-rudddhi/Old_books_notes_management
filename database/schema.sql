@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS books (
     author VARCHAR(100) NOT NULL,
     isbn VARCHAR(20) UNIQUE,
     edition VARCHAR(50),
-    `condition` ENUM('new', 'like-new', 'good', 'fair', 'poor') DEFAULT 'good',
+    `condition` ENUM('new', 'like-new', 'good', 'fair', 'poor', 'excellent') DEFAULT 'good',
     price DECIMAL(10,2) NOT NULL,
     quantity INT DEFAULT 1,
     category_id INT,
@@ -398,17 +398,9 @@ BEGIN
 END //
 
 -- Trigger to ensure only one primary image per item
-CREATE TRIGGER ensure_single_primary_image
-BEFORE INSERT ON images
-FOR EACH ROW
-BEGIN
-    IF NEW.is_primary = TRUE THEN
-        UPDATE images SET is_primary = FALSE 
-        WHERE item_type = NEW.item_type AND item_id = NEW.item_id;
-    END IF;
-END //
 
-DELIMITER ;
+
+
 
 -- =====================================================
 -- INDEXES FOR PERFORMANCE
